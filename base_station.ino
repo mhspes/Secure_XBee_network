@@ -14,15 +14,17 @@ void setup() {
 }
 
 void loop() { 
-  xbee.readPacket();
+  xbee.readPacket(); // Read packet
   
-  if (xbee.getResponse().isAvailable()){
+  if (xbee.getResponse().isAvailable()){ // Packet is available?
     
-    if (xbee.getResponse().getApiId() == RX_16_RESPONSE){
-      
+    if (xbee.getResponse().getApiId() == RX_16_RESPONSE){ // 16-bit addess?
+     
+     // Fetch the address 
      xbee.getResponse().getRx16Response(rx16);
      addr16 = rx16.getRemoteAddress16();
-
+      
+     // Test if address is in allowed-list
       if(addr16 == addr_list[0] || addr16 == addr_list[1] || addr16 == addr_list[2]){
         Serial.print("Packet received from ");
         switch(addr16){
