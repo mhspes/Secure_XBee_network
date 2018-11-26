@@ -2,10 +2,10 @@
 #include <DHT.h>
 
 #define DHTTYPE DHT22 // Temp&hum sensor
-#define dataPin 10
+#define dataPin 10    // Pin for reading sensor data
 #define powerPin 8    // Pin for powering the sensor
 
-XBee xbee = XBee();
+XBee xbee = XBee();   // Initialize XBee, DHT sensor
 DHT dht(dataPin,DHT22);
 uint8_t data[8];
 
@@ -41,14 +41,15 @@ void loop() {
     data[i]= ((temp2 /(int)pow(10,i)) % 10);
   }
 
-  //Print address and transmitted data
+  //Print address and transmitted data and send them
+  //(Serial.print is just for testing, prints locally on temperature sensor)
   Serial.print("Sending data packet to: ");
   Serial.println(addr16);
   for(int i = 7; i>=0 ; i--){
     Serial.print(data[i]); // printf("d",data[i]);
   }
   Serial.print("\n");
-  xbee.send(tx);
+  xbee.send(tx);  // Send dataframe
   delay(1000);
 }
 
